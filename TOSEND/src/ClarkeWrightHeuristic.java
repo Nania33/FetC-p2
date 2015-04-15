@@ -4,35 +4,27 @@ import java.util.*
 	
 	public double computeSolution(VRPinstance instance, java.util.List<Tour>solution){
 	    int length = solution.getMatrix().length;
-	    initsolution(instance, solution, length);
 	    
-	    int capacity = getCapacity();
-	    int tmp_capacity;
-	    double max_gain = 0;
-	    double tmp_gain;
-	    int i,j,tmp1, tmp2;
-	    Tour a,b;
-	    CustomerList first,second;
+	    PriorityQueue heap;
+	    initsolution(instance, solution, length, heap);
 	    
-	    //on essaie les combinaisons � partir de chaque instance
-	    while (true){
-	    	for (i=0;i<solution.size();i++){
-	    		for (j=i+1;j<solution.size();j++){
-	    			tmp_capacity = getCapacity(instance,solution.get(i),solution.get(j));
-	    			if (tmp_capacity < capacity){
-	    				tmp_gain = getGain(instance,solution.get(i),solution.get(j));
-	    				if (tmp_gain > max_gain){
-	    					max_gain = tmp_gain;
-	    					tmp1 = i;
-	    					tmp2 = j;
-	    				}
-	    			}
-	    		}
-	    	}
+	    Tour t;
+	    
+	    
+	    while (!heap.isEmpty()){
+		    //on récupère le meilleur gain possible
+	    	double tmp[3] = heap.poll();
 	    	
-	    	if (max_gain == 0)
-	    		break;
-	    		
+	    	//on ajoute l'arc concerné au tour
+	    	
+	    	//on regarde si la solution est valide
+	    	
+	    	//si elle est valide on continue
+	    	
+	    	//sinon on enlève l'arc et on continue
+	    
+	    
+	    
 	    }
 	    
 	    return getDistance(instance,solution);
@@ -84,11 +76,23 @@ import java.util.*
 		return disOA + disOB - disAB;
 	}
 	
-	public void initSolution(VRPinstance instance , java.util.List<Tour>solution, int length){
-	    for (i = 1; i < solution.getMatrix().length ; i++){
-		Tour ttmp = Tour(instance , i);
-		solution.append(ttmp);
-	    }	    	    
+	public void initSolution(VRPinstance instance , java.util.List<Tour>solution, int length, PriorityQueue heap){
+	    double gain;
+		for (i = 1; i < solution.getMatrix().length ; i++){
+	    	for (j=i+1;j<solution.getMatrix().length;j++){
+	    		gain = solution.getMatrix[0][i] + solution.getMatrix()[0][j] - solution.getMatrix[i][j];
+	    		double add1[3];
+	    		add1[0]=i;
+	    		add1[1]=j;
+	    		add1[2]=gain;
+	    		double add2[3];
+	    		add2[0]=j;
+	    		add2[1]=i;
+	    		add2[2]=gain;
+	    		head.add(add1);
+	    		heap.add(add2);
+	    	}
+	    }
 	}
 }
 
