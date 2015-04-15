@@ -9,71 +9,31 @@ import java.util.*
 	    initsolution(instance, solution, length, heap);
 	    
 	    Tour t;
-	    
+	    t.apprendCustomer(0);
+	    int gain = 0;
 	    
 	    while (!heap.isEmpty()){
 		    //on récupère le meilleur gain possible
 	    	double tmp[3] = heap.poll();
 	    	
-	    	//on ajoute l'arc concerné au tour
-	    	
 	    	//on regarde si la solution est valide
-	    	
 	    	//si elle est valide on continue
-	    	
 	    	//sinon on enlève l'arc et on continue
-	    
-	    
-	    
+	    	if (isValid(t,tmp[0],tmp[1])){
+	    		t.appendCustomer(tmp[0]);
+	    		t.appendCustomer(tmp[1]);
+		    	gain+=tmp[2];
+	    	}	    
 	    }
 	    
 	    return getDistance(instance,solution);
 	}
 	
-	public int getCapacity(VRPinstance instance, Tour a, Tour b){
-		int capacity;
-		CustomList<Integer> customers = a.getCustomers();
-		Iterator itr = customers.iterator();
-		ArrayList<Integer> visited = new ArrayList<Integer>();
+	boolean isValid(Tour t, int i, int j){
+		if (!t.getCustomers().contains(i) && !t.getCustomers().contains(j))
+			return true;
 		
-		while (itr.hasNext()){
-			if (!visited.contains(itr)){
-				capacity += instance.getDemand(itr);
-				visited.add(itr);
-			}
-			itr.next();
-		}
 		
-		customers = b.getCustomers();
-		itr = customers.iterator();
-		while (itr.hasNext()){
-			if (!visited.contains(itr)){
-				capacity += instance.getDemand(itr);
-				visited.add(itr);
-			}
-			itr.next();
-		}
-		
-		return capacity;
-	}
-	  
-	public double getGain(VRPinstance instance, Tour a, Tour b){
-		double disOA, disOB, disAB;
-		double[][] matrix = instance.getMatrix();
-		Customer c1,c2;
-		c1 = a.getFirstCustomer();
-		c2 = a.getLastCustomer();
-		disOA = matrix[c1][c2];
-		
-		c1 = b.getFirstCustomer();
-		c2 = b.getLastCustomer();
-		disOB = matrix[c1][c2];
-		
-		c1 = a.getFirstCustomer();
-		c2 = b.getLastCustomer();
-		disAB = matrix[c1][c2];
-		
-		return disOA + disOB - disAB;
 	}
 	
 	public void initSolution(VRPinstance instance , java.util.List<Tour>solution, int length, PriorityQueue heap){
